@@ -147,11 +147,17 @@ if(jQuery) (function($) {
 					selector
 						.append('<form class="miniColors-inputs"><input class="miniColors-textInput" input="text"><input type="submit" class="miniColors-buttonInput" value="Done"/></form>')
 						.addClass('miniColors-with-hiddeninput');
-					selector.find('.miniColors-inputs').bind('submit', function(event) {
+					selector.find('.miniColors-inputs').bind('submit.miniColors', function(event) {
 						event.preventDefault();
-						input.val( selector.find('.miniColors-textInput').val() );
-						setColorFromInput(input);
-						setTimeout(hide, 100);
+						var textinput = selector.find('.miniColors-textInput'),
+						    newhex = expandHex('#' + cleanHex(textinput.val()));
+						if( !newhex ) {
+						  textinput.val( input.val() );
+						} else {
+						  input.val( textinput.val() );
+						  setColorFromInput(input);
+						  setTimeout(hide, 100);
+						}
 					});
 				}
 				
